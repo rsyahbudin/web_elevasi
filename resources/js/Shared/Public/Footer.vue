@@ -27,7 +27,7 @@ onMounted(async () => {
     <div class="mx-auto px-2 py-4 sm:px-6 lg:px-8">
       <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
         <div class="flex items-center space-x-2 text-xs">
-          <p>GuacPanel</p>
+          <p>Elevasi Design & Build</p>
           <span class="text-[var(--color-text-muted)]">{{ version }}</span>
         </div>
         <div class="flex items-center space-x-4 text-xs">
