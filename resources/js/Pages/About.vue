@@ -59,11 +59,6 @@ const stats = [
           <Link href="/about" class="text-amber-600 dark:text-amber-400">Tentang</Link>
           <Link href="/contact" class="transition-colors hover:text-amber-600">Kontak</Link>
         </nav>
-        <Link
-          href="/login"
-          class="hidden items-center border border-amber-500 bg-amber-500/20 px-4 py-2 font-medium text-amber-700 transition-all hover:bg-amber-500/30 md:inline-flex dark:text-amber-300">
-          Login
-        </Link>
       </div>
       <!-- Mobile menu -->
       <div

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller as ParentController;
+use App\Models\Project;
+use App\Models\ProjectCategory;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
@@ -13,50 +15,82 @@ class DashboardController extends ParentController
     {
         return Inertia::render('Dashboard', [
             'stats' => $this->getStats(),
+            'recentProjects' => $this->getRecentProjects(),
+            'projectsByCategory' => $this->getProjectsByCategory(),
         ]);
     }
 
     public function getStats()
     {
         return Cache::remember('dashboard_stats', 60, function () {
-            $totalMembers = User::count();
-            $newMembersToday = User::whereDate('created_at', today())->count();
-            $memberGrowth = $this->calculateGrowthPercentage(
-                User::whereDate('created_at', '>=', now()->subDays(7))->count(),
-                User::whereDate('created_at', '>=', now()->subDays(14))->whereDate('created_at', '<', now()->subDays(7))->count()
-            );
+            $totalProjects = Project::count();
+            $publishedProjects = Project::where('status', 'published')->count();
+            $featuredProjects = Project::where('is_featured', true)->count();
+            $totalCategories = ProjectCategory::count();
 
             return [
                 [
-                    'title'  => 'Total Members',
-                    'value'  => number_format($totalMembers),
-                    'growth' => sprintf('%+.1f%%', $memberGrowth),
+                    'title' => 'Total Proyek',
+                    'value' => number_format($totalProjects),
+                    'description' => 'Semua proyek',
+                    'icon' => 'folder',
+                    'color' => 'blue',
                 ],
                 [
-                    'title'  => 'New Members Today',
-                    'value'  => number_format($newMembersToday),
-                    'growth' => sprintf('%+.1f%%', $newMembersToday > 0 ? 100 : 0),
+                    'title' => 'Proyek Dipublikasi',
+                    'value' => number_format($publishedProjects),
+                    'description' => 'Tampil di website',
+                    'icon' => 'globe',
+                    'color' => 'green',
                 ],
                 [
-                    'title'  => 'Weekly Growth',
-                    'value'  => sprintf('%+.1f%%', $memberGrowth),
-                    'growth' => sprintf('%+.1f%%', $memberGrowth),
+                    'title' => 'Proyek Unggulan',
+                    'value' => number_format($featuredProjects),
+                    'description' => 'Ditampilkan di beranda',
+                    'icon' => 'star',
+                    'color' => 'amber',
                 ],
                 [
-                    'title'  => 'Total Sessions',
-                    'value'  => number_format(rand(5000, 15000)),
-                    'growth' => sprintf('%+.1f%%', rand(5, 15)),
+                    'title' => 'Kategori',
+                    'value' => number_format($totalCategories),
+                    'description' => 'Jenis proyek',
+                    'icon' => 'tag',
+                    'color' => 'purple',
                 ],
             ];
         });
     }
 
-    private function calculateGrowthPercentage($current, $previous)
+    private function getRecentProjects()
     {
-        if ($previous == 0) {
-            return $current > 0 ? 100 : 0;
-        }
+        return Project::with('category:id,name')
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function ($project) {
+                return [
+                    'id' => $project->id,
+                    'title' => $project->title,
+                    'category' => $project->category?->name ?? 'Tanpa Kategori',
+                    'status' => $project->status,
+                    'is_featured' => $project->is_featured,
+                    'created_at' => $project->created_at->diffForHumans(),
+                    'featured_image_url' => $project->featured_image_url,
+                ];
+            });
+    }
 
-        return (($current - $previous) / $previous) * 100;
+    private function getProjectsByCategory()
+    {
+        return ProjectCategory::withCount('projects')
+            ->orderByDesc('projects_count')
+            ->take(5)
+            ->get()
+            ->map(function ($category) {
+                return [
+                    'name' => $category->name,
+                    'count' => $category->projects_count,
+                ];
+            });
     }
 }

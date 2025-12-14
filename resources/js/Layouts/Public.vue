@@ -197,12 +197,7 @@ onMounted(() => {
               </svg>
             </button>
 
-            <Link
-              href="/login"
-              class="inline-flex items-center rounded-lg bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-teal-600 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none"
-              aria-label="View demo">
-              Demo
-            </Link>
+            
           </section>
         </nav>
       </header>

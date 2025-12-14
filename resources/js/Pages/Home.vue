@@ -93,11 +93,6 @@ const services = [
           <Link href="/about" class="transition-colors hover:text-amber-600">Tentang</Link>
           <Link href="/contact" class="transition-colors hover:text-amber-600">Kontak</Link>
         </nav>
-        <Link
-          href="/login"
-          class="hidden items-center border border-amber-500 bg-amber-500/20 px-4 py-2 font-medium text-amber-700 transition-all hover:bg-amber-500/30 md:inline-flex dark:text-amber-300">
-          Login
-        </Link>
       </div>
       <!-- Mobile menu -->
       <div
@@ -149,8 +144,10 @@ const services = [
               Anda
             </h1>
             <p class="mb-8 text-lg text-gray-600 dark:text-gray-300">
-              Elevasi Design & Build adalah partner terpercaya untuk konstruksi, renovasi, dan
-              desain interior. Kami menghadirkan kualitas terbaik dengan harga kompetitif.
+              Elevasi Design & Build merupakan general contractor yang bergerak dibidang sipil,
+              arsitektur (3D), interior, taman, dll lainnya yang masih berhubungan dengan
+              kontraktor. Dengan segudang pengalaman, kami selalu memperhatikan aspek estetika,
+              keakuratan, dan fungsional dalam pekerjaan kami.
             </p>
             <div class="flex flex-col gap-4 sm:flex-row">
               <Link
@@ -375,7 +372,7 @@ const services = [
                 Hubungi Kami
               </Link>
               <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/6282231545981"
                 target="_blank"
                 class="inline-flex items-center justify-center rounded-lg border-2 border-white bg-transparent px-8 py-4 font-bold text-white transition-all hover:bg-white/10">
                 <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -437,8 +434,8 @@ const services = [
             <h4 class="mb-4 font-bold text-gray-900 dark:text-white">Kontak</h4>
             <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
               <p>📍 Jakarta, Indonesia</p>
-              <p>📞 +62 812 3456 7890</p>
-              <p>✉️ info@elevasidesign.com</p>
+              <p>📞 +62 822 3154 5981</p>
+              <p>✉️ farhansyahbudin@elevasidesignbuild.com</p>
             </div>
           </div>
         </div>
