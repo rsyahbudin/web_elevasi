@@ -2,24 +2,12 @@
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import FlashMessage from '@js/Components/Notifications/FlashMessage.vue'
-import Logo from '@js/Components/Common/Logo.vue'
+import Navbar from '@js/Shared/Public/Navbar.vue'
+import Footer from '@js/Shared/Public/Footer.vue'
 
 const page = usePage()
 const personalisation = computed(() => page.props.personalisation || {})
 const contact = computed(() => page.props.contact || {})
-
-// Logo URLs with fallbacks
-const logoUrl = computed(() => {
-  return personalisation.value.app_logo
-    ? `/storage/${personalisation.value.app_logo}`
-    : '/images/logo.png'
-})
-
-const logoDarkUrl = computed(() => {
-  return personalisation.value.app_logo_dark
-    ? `/storage/${personalisation.value.app_logo_dark}`
-    : '/images/logo-dark.png'
-})
 
 const props = defineProps({
   featuredProjects: {
@@ -32,7 +20,6 @@ const props = defineProps({
   },
 })
 
-const mobileMenuOpen = ref(false)
 const showBackToTop = ref(false)
 
 const handleScroll = () => {
@@ -80,62 +67,7 @@ const services = [
   <Head title="Elevasi Design & Build - Kontraktor Profesional" />
   <div
     class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
-    <!-- Header -->
-    <header
-      class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 py-2 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/80">
-      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
-        <Link href="/" class="flex items-center gap-3">
-          <Logo class="h-10 w-auto" />
-        </Link>
-        <button
-          class="flex items-center border border-gray-500 px-2 py-1 text-gray-800 md:hidden dark:border-gray-500 dark:text-gray-200"
-          @click="mobileMenuOpen = !mobileMenuOpen">
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              v-if="!mobileMenuOpen"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7" />
-            <path
-              v-else
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <nav class="hidden gap-8 text-sm font-medium text-gray-700 md:flex dark:text-gray-200">
-          <Link href="/" class="text-amber-600 dark:text-amber-400">Beranda</Link>
-          <Link href="/projects" class="transition-colors hover:text-amber-600">Proyek</Link>
-          <Link href="/about" class="transition-colors hover:text-amber-600">Tentang</Link>
-          <Link href="/contact" class="transition-colors hover:text-amber-600">Kontak</Link>
-        </nav>
-      </div>
-      <!-- Mobile menu -->
-      <div
-        v-show="mobileMenuOpen"
-        class="border-t border-gray-100 bg-white md:hidden dark:border-gray-800 dark:bg-gray-900">
-        <div class="space-y-3 px-4 py-3">
-          <Link href="/" class="block text-sm text-amber-600 dark:text-amber-400">Beranda</Link>
-          <Link
-            href="/projects"
-            class="block text-sm text-gray-700 hover:text-amber-600 dark:text-gray-200">
-            Proyek
-          </Link>
-          <Link
-            href="/about"
-            class="block text-sm text-gray-700 hover:text-amber-600 dark:text-gray-200">
-            Tentang
-          </Link>
-          <Link
-            href="/contact"
-            class="block text-sm text-gray-700 hover:text-amber-600 dark:text-gray-200">
-            Kontak
-          </Link>
-        </div>
-      </div>
-    </header>
+    <Navbar />
 
     <!-- Hero Section -->
     <section class="relative overflow-hidden py-20 lg:py-32">
@@ -458,60 +390,7 @@ const services = [
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-900">
-      <div class="mx-auto max-w-7xl px-4">
-        <div class="grid gap-8 md:grid-cols-4">
-          <div class="md:col-span-2">
-            <div class="mb-4 flex items-center gap-3">
-              <Logo class="h-10 w-auto" />
-            </div>
-            <p class="mb-4 text-gray-600 dark:text-gray-400">
-              Elevasi Design & Build adalah kontraktor profesional yang berkomitmen menghadirkan
-              kualitas terbaik untuk setiap proyek konstruksi dan renovasi.
-            </p>
-          </div>
-          <div>
-            <h4 class="mb-4 font-bold text-gray-900 dark:text-white">Navigasi</h4>
-            <nav class="space-y-2 text-sm">
-              <Link href="/" class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
-                Beranda
-              </Link>
-              <Link
-                href="/projects"
-                class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
-                Proyek
-              </Link>
-              <Link
-                href="/about"
-                class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
-                Tentang
-              </Link>
-              <Link
-                href="/contact"
-                class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
-                Kontak
-              </Link>
-            </nav>
-          </div>
-          <div>
-            <h4 class="mb-4 font-bold text-gray-900 dark:text-white">Kontak</h4>
-            <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <p v-if="contact.address">📍 {{ contact.address }}</p>
-              <p v-else>📍 Jakarta, Indonesia</p>
-              <p v-if="contact.phone">📞 {{ contact.phone }}</p>
-              <p v-else>📞 +62 822 3154 5981</p>
-              <p v-if="contact.email">✉️ {{ contact.email }}</p>
-              <p v-else>✉️ farhansyahbudin@elevasidesignbuild.com</p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="mt-8 border-t border-gray-200 pt-8 text-center text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
-          <p>© 2024 Elevasi Design & Build. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+    <Footer />
 
     <!-- Back to Top Button -->
     <button

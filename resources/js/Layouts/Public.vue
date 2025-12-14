@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import NavSidebarDesktop from '@js/Shared/Public/NavSidebarDesktop.vue'
-import Footer from '@js/Shared/Public/Footer.vue'
+import Footer from '@js/Components/Common/SimpleFooter.vue'
 import Logo from '@js/Components/Common/Logo.vue'
 import { cycleTheme, getCurrentThemeState } from '@js/utils/darkMode'
 import FlashMessage from '@js/Components/Notifications/FlashMessage.vue'

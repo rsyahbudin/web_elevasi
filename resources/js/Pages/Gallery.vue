@@ -2,22 +2,8 @@
 import { Head, Link, usePage } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import FlashMessage from '@js/Components/Notifications/FlashMessage.vue'
-import Logo from '@js/Components/Common/Logo.vue'
-
-const page = usePage()
-const personalisation = computed(() => page.props.personalisation || {})
-
-const logoUrl = computed(() => {
-  return personalisation.value.app_logo
-    ? `/storage/${personalisation.value.app_logo}`
-    : '/images/logo.png'
-})
-
-const logoDarkUrl = computed(() => {
-  return personalisation.value.app_logo_dark
-    ? `/storage/${personalisation.value.app_logo_dark}`
-    : '/images/logo-dark.png'
-})
+import Navbar from '@js/Shared/Public/Navbar.vue'
+import Footer from '@js/Shared/Public/Footer.vue'
 
 const props = defineProps({
   projects: {
@@ -55,63 +41,7 @@ const setCategory = categoryId => {
   <div
     class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
     <!-- Header -->
-    <header
-      class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 py-2 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/80">
-      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
-        <Link href="/" class="flex items-center gap-3">
-          <Logo size="2.5rem" max-size="2.5rem" />
-        </Link>
-        <button
-          class="flex items-center border border-gray-500 px-2 py-1 text-gray-800 md:hidden dark:border-gray-500 dark:text-gray-200"
-          @click="mobileMenuOpen = !mobileMenuOpen">
-          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              v-if="!mobileMenuOpen"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7" />
-            <path
-              v-else
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <nav class="hidden gap-8 text-sm font-medium text-gray-700 md:flex dark:text-gray-200">
-          <Link href="/" class="transition-colors hover:text-amber-600">Beranda</Link>
-          <Link href="/projects" class="text-amber-600 dark:text-amber-400">Proyek</Link>
-          <Link href="/about" class="transition-colors hover:text-amber-600">Tentang</Link>
-          <Link href="/contact" class="transition-colors hover:text-amber-600">Kontak</Link>
-        </nav>
-      </div>
-      <!-- Mobile menu -->
-      <div
-        v-show="mobileMenuOpen"
-        class="border-t border-gray-100 bg-white md:hidden dark:border-gray-800 dark:bg-gray-900">
-        <div class="space-y-3 px-4 py-3">
-          <Link
-            href="/"
-            class="block text-sm text-gray-700 hover:text-amber-600 dark:text-gray-200">
-            Beranda
-          </Link>
-          <Link href="/projects" class="block text-sm text-amber-600 dark:text-amber-400">
-            Proyek
-          </Link>
-          <Link
-            href="/about"
-            class="block text-sm text-gray-700 hover:text-amber-600 dark:text-gray-200">
-            Tentang
-          </Link>
-          <Link
-            href="/contact"
-            class="block text-sm text-gray-700 hover:text-amber-600 dark:text-gray-200">
-            Kontak
-          </Link>
-        </div>
-      </div>
-    </header>
+    <Navbar />
 
     <!-- Hero Section -->
     <section class="relative overflow-hidden py-16 sm:py-20">
@@ -247,27 +177,6 @@ const setCategory = categoryId => {
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-900">
-      <div class="mx-auto max-w-7xl px-4">
-        <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <div class="flex items-center gap-3">
-            <img src="/images/logo.png" class="block h-8 w-auto dark:hidden" alt="Elevasi Logo" />
-            <img
-              src="/images/logo-dark.png"
-              class="hidden h-8 w-auto dark:block"
-              alt="Elevasi Logo" />
-            <span class="text-sm text-gray-600 dark:text-gray-400">
-              © 2024 Elevasi Design & Build
-            </span>
-          </div>
-          <nav class="flex gap-6 text-sm text-gray-600 dark:text-gray-400">
-            <Link href="/" class="hover:text-amber-600">Beranda</Link>
-            <Link href="/projects" class="hover:text-amber-600">Proyek</Link>
-            <Link href="/about" class="hover:text-amber-600">Tentang</Link>
-            <Link href="/contact" class="hover:text-amber-600">Kontak</Link>
-          </nav>
-        </div>
-      </div>
-    </footer>
+    <Footer />
   </div>
 </template>

@@ -1,60 +1,61 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { usePage } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
 import Logo from '@js/Components/Common/Logo.vue'
 
 const page = usePage()
-const version = ref('v1.0.0')
-const personalisation = page.props.personalisation || {}
-
-onMounted(async () => {
-  try {
-    const response = await fetch(
-      'https://api.github.com/repos/otatechie/guacpanel-tailwind/releases/latest'
-    )
-    const data = await response.json()
-    if (data.tag_name) {
-      version.value = data.tag_name
-    }
-  } catch (error) {
-    version.value = 'v1.0.0'
-  }
-})
+const contact = computed(() => page.props.contact || {})
 </script>
 
 <template>
-  <footer
-    class="border-t border-[var(--color-border)] bg-[var(--color-surface-muted)] text-[var(--color-text-muted)]">
-    <div class="mx-auto px-2 py-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
-        <div class="flex items-center space-x-2 text-xs">
-          <Logo class="h-6 w-auto" />
-          <p>Elevasi Design & Build</p>
-          <span class="text-[var(--color-text-muted)]">{{ version }}</span>
-        </div>
-        <div class="flex items-center space-x-4 text-xs">
-          <p class="text-[var(--color-text-muted)]">
-            {{
-              personalisation.copyright_text ||
-              '© ' + new Date().getFullYear() + ' All rights reserved.'
-            }}
+  <footer class="border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-900">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="grid gap-8 md:grid-cols-4">
+        <div class="md:col-span-2">
+          <div class="mb-4 flex items-center gap-3">
+            <Logo class="h-10 w-auto" />
+          </div>
+          <p class="mb-4 text-gray-600 dark:text-gray-400">
+            Elevasi Design & Build adalah kontraktor profesional yang berkomitmen menghadirkan
+            kualitas terbaik untuk setiap proyek konstruksi dan renovasi.
           </p>
-          <a
-            href="https://github.com/otatechie/guacpanel-tailwind"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-[var(--color-text-muted)] transition-colors duration-200 hover:text-[var(--color-text)]"
-            aria-label="GitHub">
-            <svg
-              class="h-5 w-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
         </div>
+        <div>
+          <h4 class="mb-4 font-bold text-gray-900 dark:text-white">Navigasi</h4>
+          <nav class="space-y-2 text-sm">
+            <Link href="/" class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
+              Beranda
+            </Link>
+            <Link
+              href="/projects"
+              class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
+              Proyek
+            </Link>
+            <Link href="/about" class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
+              Tentang
+            </Link>
+            <Link
+              href="/contact"
+              class="block text-gray-600 hover:text-amber-600 dark:text-gray-400">
+              Kontak
+            </Link>
+          </nav>
+        </div>
+        <div>
+          <h4 class="mb-4 font-bold text-gray-900 dark:text-white">Kontak</h4>
+          <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+            <p v-if="contact.address">📍 {{ contact.address }}</p>
+            <p v-else>📍 Jakarta, Indonesia</p>
+            <p v-if="contact.phone">📞 {{ contact.phone }}</p>
+            <p v-else>📞 +62 822 3154 5981</p>
+            <p v-if="contact.email">✉️ {{ contact.email }}</p>
+            <p v-else>✉️ farhansyahbudin@elevasidesignbuild.com</p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-8 border-t border-gray-200 pt-8 text-center text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+        <p>© {{ new Date().getFullYear() }} Elevasi Design & Build. All rights reserved.</p>
       </div>
     </div>
   </footer>
