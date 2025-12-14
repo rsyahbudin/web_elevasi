@@ -317,7 +317,7 @@ const chartProps = [
 </script>
 
 <template>
-  <Head title="Components - GuacPanel" />
+  <Head title="Components - Elevasi" />
 
   <div id="introduction" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Hero Section -->

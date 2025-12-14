@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3'
 import { ref, computed } from 'vue'
 import Logo from '@js/Components/Common/Logo.vue'
+import NavDarkModeToggle from '@js/Components/Nav/NavDarkModeToggle.vue'
 
 const mobileMenuOpen = ref(false)
 const page = usePage()
@@ -60,6 +61,9 @@ const isActive = path => page.url === path
           :class="{ 'text-amber-600 dark:text-amber-400': isActive('/contact') }">
           Kontak
         </Link>
+        <div class="border-l border-gray-200 pl-4 dark:border-gray-700">
+          <NavDarkModeToggle :show-tooltip="false" />
+        </div>
       </nav>
     </div>
     <!-- Mobile menu -->
@@ -91,6 +95,11 @@ const isActive = path => page.url === path
           :class="{ 'text-amber-600 dark:text-amber-400': isActive('/contact') }">
           Kontak
         </Link>
+        <div
+          class="flex items-center justify-between border-t border-gray-100 pt-3 dark:border-gray-800">
+          <span class="text-sm text-gray-500 dark:text-gray-400">Tema</span>
+          <NavDarkModeToggle :show-tooltip="false" />
+        </div>
       </div>
     </div>
   </header>
