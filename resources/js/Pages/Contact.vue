@@ -149,7 +149,7 @@ const contactInfo = computed(() => [
                 :key="info.title"
                 class="flex items-start gap-4 rounded-xl bg-white p-6 shadow-md dark:bg-gray-800">
                 <div
-                  class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/50">
+                  class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/50">
                   <svg
                     class="h-6 w-6 text-amber-600"
                     fill="none"

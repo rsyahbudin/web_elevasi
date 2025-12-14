@@ -70,7 +70,7 @@ const services = [
     <Navbar />
 
     <!-- Hero Section -->
-    <section class="relative overflow-hidden py-20 lg:py-32">
+    <section class="relative overflow-hidden py-16 lg:py-32">
       <div
         class="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-white to-slate-50 dark:from-amber-900/10 dark:via-gray-900 dark:to-gray-900"></div>
       <div
@@ -129,7 +129,7 @@ const services = [
             </div>
             <!-- Stats Card -->
             <div
-              class="absolute -bottom-6 -left-6 rounded-xl bg-white p-4 shadow-xl dark:bg-gray-800">
+              class="absolute right-6 -bottom-6 left-6 rounded-xl bg-white p-4 shadow-xl sm:right-auto sm:-left-6 dark:bg-gray-800">
               <div class="flex items-center gap-4">
                 <div
                   class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/50">

@@ -10,8 +10,8 @@ const contact = computed(() => page.props.contact || {})
 <template>
   <footer class="border-t border-gray-200 bg-white py-12 dark:border-gray-800 dark:bg-gray-900">
     <div class="mx-auto max-w-7xl px-4">
-      <div class="grid gap-8 md:grid-cols-4">
-        <div class="md:col-span-2">
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="sm:col-span-2 lg:col-span-2">
           <div class="mb-4 flex items-center gap-3">
             <Logo class="h-10 w-auto" />
           </div>
