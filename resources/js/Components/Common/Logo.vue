@@ -14,75 +14,80 @@ const darkLogoUrl = computed(() => {
   return path ? (path.startsWith('/storage/') ? path : `/storage/${path}`) : null
 })
 
-const props = defineProps({
-  size: {
+defineProps({
+  // Allow passing generic class restrictions if needed, though attributes fallthrough usually handles this
+  className: {
     type: String,
-    default: null,
-  },
-  maxSize: {
-    type: String,
-    default: '8rem',
+    default: '',
   },
 })
 
 const hasError = ref(false)
 const hasDarkError = ref(false)
-const logoStyles = ref({
-  maxWidth: props.maxSize,
-  maxHeight: props.maxSize,
-  width: 'auto',
-  height: 'auto',
-})
 
-function handleError() {
-  hasError.value = true
-}
-
-onMounted(() => {
-  if (props.size) {
-    logoStyles.value = {
-      width: props.size,
-      height: 'auto',
-      maxWidth: props.maxSize,
-      maxHeight: props.maxSize,
-    }
+const handleLoadError = isDark => {
+  if (isDark) {
+    hasDarkError.value = true
+  } else {
+    hasError.value = true
   }
-})
+}
 </script>
 
 <template>
-  <figure class="m-0 flex items-center justify-center p-0">
-    <picture v-if="(logoUrl && !hasError) || (darkLogoUrl && !hasDarkError)">
-      <!-- Dark mode logo -->
-      <source
-        v-if="darkLogoUrl && !hasDarkError"
-        :srcset="darkLogoUrl"
-        media="(prefers-color-scheme: dark)" />
-
-      <!-- Light mode logo -->
+  <div class="inline-flex shrink-0 items-center justify-center" :class="className">
+    <!-- Case 1: Both logos exist -->
+    <template v-if="logoUrl && darkLogoUrl">
+      <!-- Light Mode Logo: Hide in dark mode -->
       <img
-        v-if="logoUrl && !hasError"
+        v-if="!hasError"
         :src="logoUrl"
-        alt="Application Logo"
-        :style="logoStyles"
-        class="object-contain"
-        @error="handleError" />
-    </picture>
+        alt="Logo"
+        class="block h-full w-auto dark:hidden"
+        @error="handleLoadError(false)" />
 
-    <!-- Fallback -->
-    <h1 v-else class="text-center text-3xl font-extrabold text-gray-800 dark:text-white">
+      <!-- Dark Mode Logo: Show ONLY in dark mode -->
+      <img
+        v-if="!hasDarkError"
+        :src="darkLogoUrl"
+        alt="Logo Dark"
+        class="hidden h-full w-auto dark:block"
+        @error="handleLoadError(true)" />
+    </template>
+
+    <!-- Case 2: Only Light Mode Logo exists -->
+    <template v-else-if="logoUrl">
+      <img
+        v-if="!hasError"
+        :src="logoUrl"
+        alt="Logo"
+        class="h-full w-auto"
+        @error="handleLoadError(false)" />
+    </template>
+
+    <!-- Case 3: Only Dark Mode Logo exists (rare but possible) -->
+    <template v-else-if="darkLogoUrl">
+      <img
+        v-if="!hasDarkError"
+        :src="darkLogoUrl"
+        alt="Logo"
+        class="h-full w-auto"
+        @error="handleLoadError(true)" />
+    </template>
+
+    <!-- Fallback Text -->
+    <h1
+      v-if="
+        (!logoUrl && !darkLogoUrl) ||
+        (logoUrl && hasError && !darkLogoUrl) ||
+        (darkLogoUrl && hasDarkError && !logoUrl)
+      "
+      class="text-xl font-bold whitespace-nowrap text-gray-800 dark:text-white">
       {{ page.props.personalisation?.app_name || 'GuacPanel' }}
     </h1>
-  </figure>
+  </div>
 </template>
 
 <style scoped>
-figure {
-  margin: 0;
-  padding: 0;
-}
-
-img {
-  display: block;
-}
+/* No scoped styles needed, relying on utility classes */
 </style>

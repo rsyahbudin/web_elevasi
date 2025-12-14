@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller as ParentController;
+use App\Models\Client;
 use App\Models\Project;
 use App\Models\ProjectCategory;
-use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
@@ -56,6 +56,13 @@ class DashboardController extends ParentController
                     'description' => 'Jenis proyek',
                     'icon' => 'tag',
                     'color' => 'purple',
+                ],
+                [
+                    'title' => 'Klien',
+                    'value' => number_format(Client::where('is_active', true)->count()),
+                    'description' => 'Logo klien aktif',
+                    'icon' => 'users',
+                    'color' => 'indigo',
                 ],
             ];
         });

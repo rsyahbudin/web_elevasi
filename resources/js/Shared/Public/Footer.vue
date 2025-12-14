@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { usePage } from '@inertiajs/vue3'
+import Logo from '@js/Components/Common/Logo.vue'
 
 const page = usePage()
 const version = ref('v1.0.0')
@@ -27,6 +28,7 @@ onMounted(async () => {
     <div class="mx-auto px-2 py-4 sm:px-6 lg:px-8">
       <div class="flex flex-col items-center justify-between gap-4 md:flex-row">
         <div class="flex items-center space-x-2 text-xs">
+          <Logo class="h-6 w-auto" />
           <p>Elevasi Design & Build</p>
           <span class="text-[var(--color-text-muted)]">{{ version }}</span>
         </div>

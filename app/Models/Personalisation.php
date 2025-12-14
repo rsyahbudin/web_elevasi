@@ -22,16 +22,24 @@ class Personalisation extends Model
         'app_logo_dark',
         'favicon',
         'copyright_text',
+        'phone',
+        'email',
+        'whatsapp',
+        'address',
     ];
 
     protected $casts = [
-        'app_name'          => 'string',
-        'app_logo'          => 'string',
-        'app_logo_dark'     => 'string',
-        'favicon'           => 'string',
-        'copyright_text'    => 'string',
-        'created_at'        => 'datetime',
-        'updated_at'        => 'datetime',
+        'app_name' => 'string',
+        'app_logo' => 'string',
+        'app_logo_dark' => 'string',
+        'favicon' => 'string',
+        'copyright_text' => 'string',
+        'phone' => 'string',
+        'email' => 'string',
+        'whatsapp' => 'string',
+        'address' => 'string',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     protected static function booted()

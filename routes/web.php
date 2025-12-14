@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminUsersVerificationController;
 use App\Http\Controllers\Admin\AdminProjectController;
 use App\Http\Controllers\Admin\AdminProjectCategoryController;
+use App\Http\Controllers\Admin\AdminClientController;
 use App\Http\Controllers\Pages\PublicProjectController;
 use App\Http\Controllers\Auth\ForcePasswordChangeController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -220,6 +221,11 @@ Route::middleware(['web', 'auth', 'auth.session'])->group(function () {
                     Route::resource('project-categories', AdminProjectCategoryController::class)
                         ->except(['show', 'create', 'edit'])
                         ->names('project.category');
+
+                    // Client Management Routes
+                    Route::resource('clients', AdminClientController::class)
+                        ->except(['show', 'create', 'edit'])
+                        ->names('client');
                 });
         });
 

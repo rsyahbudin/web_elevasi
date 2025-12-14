@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import NavSidebarDesktop from '@js/Shared/Public/NavSidebarDesktop.vue'
 import Footer from '@js/Shared/Public/Footer.vue'
+import Logo from '@js/Components/Common/Logo.vue'
 import { cycleTheme, getCurrentThemeState } from '@js/utils/darkMode'
 import FlashMessage from '@js/Components/Notifications/FlashMessage.vue'
 
@@ -119,11 +120,7 @@ onMounted(() => {
               href="/"
               class="flex items-center text-xl font-semibold text-[var(--color-text)]"
               aria-label="Go to homepage">
-              <img src="/images/logo.png" class="block h-10 w-auto dark:hidden" alt="Logo" />
-              <img
-                src="/images/logo-dark.png"
-                class="hidden h-10 w-auto dark:block"
-                alt="Logo Dark" />
+              <Logo class="h-10 w-auto" />
             </Link>
 
             <!-- Mobile Menu Toggle -->
@@ -196,8 +193,6 @@ onMounted(() => {
                   d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
               </svg>
             </button>
-
-            
           </section>
         </nav>
       </header>

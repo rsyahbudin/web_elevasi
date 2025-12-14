@@ -1,7 +1,24 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
+import { ref, computed } from 'vue'
 import FlashMessage from '@js/Components/Notifications/FlashMessage.vue'
+import Logo from '@js/Components/Common/Logo.vue'
+
+const page = usePage()
+const personalisation = computed(() => page.props.personalisation || {})
+const contact = computed(() => page.props.contact || {})
+
+const logoUrl = computed(() => {
+  return personalisation.value.app_logo
+    ? `/storage/${personalisation.value.app_logo}`
+    : '/images/logo.png'
+})
+
+const logoDarkUrl = computed(() => {
+  return personalisation.value.app_logo_dark
+    ? `/storage/${personalisation.value.app_logo_dark}`
+    : '/images/logo-dark.png'
+})
 
 const mobileMenuOpen = ref(false)
 
@@ -14,29 +31,28 @@ const form = useForm({
 })
 
 const submitForm = () => {
-  // For now, just show an alert
   alert('Terima kasih! Pesan Anda telah dikirim. Kami akan segera menghubungi Anda.')
   form.reset()
 }
 
-const contactInfo = [
+const contactInfo = computed(() => [
   {
     icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z',
     icon2: 'M15 11a3 3 0 11-6 0 3 3 0 016 0z',
     title: 'Alamat',
-    content: 'Jakarta, Indonesia',
+    content: contact.value.address || 'Jakarta, Indonesia',
   },
   {
     icon: 'M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z',
     title: 'Telepon',
-    content: '+62 822 3154 5981',
+    content: contact.value.phone || '+62 822 3154 5981',
   },
   {
     icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
     title: 'Email',
-    content: 'farhansyahbudin@elevasidesignbuild.com',
+    content: contact.value.email || 'farhansyahbudin@elevasidesignbuild.com',
   },
-]
+])
 </script>
 
 <template>
@@ -49,11 +65,7 @@ const contactInfo = [
       class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 py-2 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/80">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
         <Link href="/" class="flex items-center gap-3">
-          <img src="/images/logo.png" class="block h-10 w-auto dark:hidden" alt="Elevasi Logo" />
-          <img
-            src="/images/logo-dark.png"
-            class="hidden h-10 w-auto dark:block"
-            alt="Elevasi Logo" />
+          <Logo size="2.5rem" max-size="2.5rem" />
         </Link>
         <button
           class="flex items-center border border-gray-500 px-2 py-1 text-gray-800 md:hidden dark:border-gray-500 dark:text-gray-200"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Project;
 use Inertia\Inertia;
 
@@ -28,8 +29,21 @@ class PageController extends Controller
                 ];
             });
 
+        $clients = Client::active()
+            ->ordered()
+            ->get()
+            ->map(function ($client) {
+                return [
+                    'id' => $client->id,
+                    'name' => $client->name,
+                    'logo_url' => $client->logo_url,
+                    'website' => $client->website,
+                ];
+            });
+
         return Inertia::render('Home', [
             'featuredProjects' => $featuredProjects,
+            'clients' => $clients,
         ]);
     }
 
@@ -40,7 +54,21 @@ class PageController extends Controller
 
     public function about()
     {
-        return Inertia::render('About');
+        $clients = Client::active()
+            ->ordered()
+            ->get()
+            ->map(function ($client) {
+                return [
+                    'id' => $client->id,
+                    'name' => $client->name,
+                    'logo_url' => $client->logo_url,
+                    'website' => $client->website,
+                ];
+            });
+
+        return Inertia::render('About', [
+            'clients' => $clients,
+        ]);
     }
 
     public function contact()

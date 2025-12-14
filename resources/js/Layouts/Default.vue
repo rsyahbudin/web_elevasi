@@ -148,7 +148,7 @@ onUnmounted(() => {
               href="/dashboard"
               class="flex items-center text-lg font-semibold text-[var(--color-text)] sm:text-xl"
               aria-label="Go to dashboard">
-              <Logo :size="isMobile() ? '5rem' : '5rem'" />
+              <Logo class="h-10 w-auto" />
             </Link>
 
             <button

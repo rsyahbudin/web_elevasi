@@ -1,10 +1,32 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { Head, Link, usePage } from '@inertiajs/vue3'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import FlashMessage from '@js/Components/Notifications/FlashMessage.vue'
+import Logo from '@js/Components/Common/Logo.vue'
+
+const page = usePage()
+const personalisation = computed(() => page.props.personalisation || {})
+const contact = computed(() => page.props.contact || {})
+
+// Logo URLs with fallbacks
+const logoUrl = computed(() => {
+  return personalisation.value.app_logo
+    ? `/storage/${personalisation.value.app_logo}`
+    : '/images/logo.png'
+})
+
+const logoDarkUrl = computed(() => {
+  return personalisation.value.app_logo_dark
+    ? `/storage/${personalisation.value.app_logo_dark}`
+    : '/images/logo-dark.png'
+})
 
 const props = defineProps({
   featuredProjects: {
+    type: Array,
+    default: () => [],
+  },
+  clients: {
     type: Array,
     default: () => [],
   },
@@ -63,11 +85,7 @@ const services = [
       class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 py-2 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/80">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
         <Link href="/" class="flex items-center gap-3">
-          <img src="/images/logo.png" class="block h-10 w-auto dark:hidden" alt="Elevasi Logo" />
-          <img
-            src="/images/logo-dark.png"
-            class="hidden h-10 w-auto dark:block"
-            alt="Elevasi Logo" />
+          <Logo class="h-10 w-auto" />
         </Link>
         <button
           class="flex items-center border border-gray-500 px-2 py-1 text-gray-800 md:hidden dark:border-gray-500 dark:text-gray-200"
@@ -345,6 +363,59 @@ const services = [
       </div>
     </section>
 
+    <!-- Clients Section with Marquee Animation -->
+    <section
+      v-if="clients.length > 0"
+      class="overflow-hidden border-t border-gray-100 bg-gray-50 py-16 dark:border-gray-800 dark:bg-gray-900">
+      <div class="mx-auto max-w-7xl px-4">
+        <div class="mb-12 text-center">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Klien Kami</h2>
+          <p class="mt-4 text-gray-600 dark:text-gray-400">
+            Dipercaya oleh berbagai perusahaan dan klien
+          </p>
+        </div>
+      </div>
+      <!-- Marquee Container -->
+      <div class="relative">
+        <div class="marquee-container">
+          <div class="marquee-content">
+            <!-- First set of logos -->
+            <a
+              v-for="client in clients"
+              :key="'first-' + client.id"
+              :href="client.website || '#'"
+              :target="client.website ? '_blank' : undefined"
+              class="group mx-4 flex h-20 w-32 shrink-0 items-center justify-center rounded-lg bg-white p-4 shadow-sm transition-all hover:shadow-md md:mx-6 md:h-24 md:w-40 dark:bg-gray-800">
+              <img
+                v-if="client.logo_url"
+                :src="client.logo_url"
+                :alt="client.name"
+                class="h-full max-h-16 w-full object-contain opacity-60 grayscale transition-all group-hover:opacity-100 group-hover:grayscale-0" />
+              <span v-else class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                {{ client.name }}
+              </span>
+            </a>
+            <!-- Duplicate set for seamless loop -->
+            <!-- <a
+              v-for="client in clients"
+              :key="'second-' + client.id"
+              :href="client.website || '#'"
+              :target="client.website ? '_blank' : undefined"
+              class="group mx-4 flex h-20 w-32 shrink-0 items-center justify-center rounded-lg bg-white p-4 shadow-sm transition-all hover:shadow-md md:mx-6 md:h-24 md:w-40 dark:bg-gray-800">
+              <img
+                v-if="client.logo_url"
+                :src="client.logo_url"
+                :alt="client.name"
+                class="h-full max-h-16 w-full object-contain opacity-60 grayscale transition-all group-hover:opacity-100 group-hover:grayscale-0" />
+              <span v-else class="text-sm font-medium text-gray-600 dark:text-gray-400">
+                {{ client.name }}
+              </span>
+            </a> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="bg-gradient-to-br from-amber-500 to-orange-500 py-20">
       <div class="mx-auto max-w-7xl px-4">
@@ -393,14 +464,7 @@ const services = [
         <div class="grid gap-8 md:grid-cols-4">
           <div class="md:col-span-2">
             <div class="mb-4 flex items-center gap-3">
-              <img
-                src="/images/logo.png"
-                class="block h-10 w-auto dark:hidden"
-                alt="Elevasi Logo" />
-              <img
-                src="/images/logo-dark.png"
-                class="hidden h-10 w-auto dark:block"
-                alt="Elevasi Logo" />
+              <Logo class="h-10 w-auto" />
             </div>
             <p class="mb-4 text-gray-600 dark:text-gray-400">
               Elevasi Design & Build adalah kontraktor profesional yang berkomitmen menghadirkan
@@ -433,9 +497,12 @@ const services = [
           <div>
             <h4 class="mb-4 font-bold text-gray-900 dark:text-white">Kontak</h4>
             <div class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-              <p>📍 Jakarta, Indonesia</p>
-              <p>📞 +62 822 3154 5981</p>
-              <p>✉️ farhansyahbudin@elevasidesignbuild.com</p>
+              <p v-if="contact.address">📍 {{ contact.address }}</p>
+              <p v-else>📍 Jakarta, Indonesia</p>
+              <p v-if="contact.phone">📞 {{ contact.phone }}</p>
+              <p v-else>📞 +62 822 3154 5981</p>
+              <p v-if="contact.email">✉️ {{ contact.email }}</p>
+              <p v-else>✉️ farhansyahbudin@elevasidesignbuild.com</p>
             </div>
           </div>
         </div>
@@ -462,3 +529,28 @@ const services = [
     </button>
   </div>
 </template>
+
+<style scoped>
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-content {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+</style>

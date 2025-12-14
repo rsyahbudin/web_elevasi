@@ -1,7 +1,23 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { Head, Link, usePage } from '@inertiajs/vue3'
+import { ref, computed } from 'vue'
 import FlashMessage from '@js/Components/Notifications/FlashMessage.vue'
+import Logo from '@js/Components/Common/Logo.vue'
+
+const page = usePage()
+const personalisation = computed(() => page.props.personalisation || {})
+
+const logoUrl = computed(() => {
+  return personalisation.value.app_logo
+    ? `/storage/${personalisation.value.app_logo}`
+    : '/images/logo.png'
+})
+
+const logoDarkUrl = computed(() => {
+  return personalisation.value.app_logo_dark
+    ? `/storage/${personalisation.value.app_logo_dark}`
+    : '/images/logo-dark.png'
+})
 
 const props = defineProps({
   project: {
@@ -38,8 +54,6 @@ const closeLightbox = () => {
   showLightbox.value = false
   selectedImage.value = null
 }
-
-import { computed } from 'vue'
 </script>
 
 <template>
@@ -52,11 +66,7 @@ import { computed } from 'vue'
       class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 py-2 backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/80">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-2">
         <Link href="/" class="flex items-center gap-3">
-          <img src="/images/logo.png" class="block h-10 w-auto dark:hidden" alt="Elevasi Logo" />
-          <img
-            src="/images/logo-dark.png"
-            class="hidden h-10 w-auto dark:block"
-            alt="Elevasi Logo" />
+          <Logo size="2.5rem" max-size="2.5rem" />
         </Link>
         <button
           class="flex items-center border border-gray-500 px-2 py-1 text-gray-800 md:hidden dark:border-gray-500 dark:text-gray-200"
